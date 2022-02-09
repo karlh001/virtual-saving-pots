@@ -69,7 +69,6 @@ $result = $conn->query($sql);
                 <th>Account Name</th>
                 <th>Comment</th>
                 <th>Balance</th>
-                <th>Delete</th>
                 
             </tr>
             
@@ -130,9 +129,7 @@ if ($result->num_rows > 0) {
 							echo "<td>0.00</td>";
 					}
 			
-			
-			echo "<td><a href = 'php/delete_account.php?ref=" . $row["acc_ref"] . "' title = 'Delete account'><i class='icofont-bin'></i>
-</a></td>";
+		
 			
 			
 	echo "
@@ -154,7 +151,7 @@ if ($result->num_rows > 0) {
 	  <div class="row">
 		<div class="col-sm">
 		
-		<p style="font-size: 25px;" id = "GetTotalID">Total Balance: <?php echo array_sum($totalArray) ?></p>
+		<p style="font-size: 20px;">Total Balance: <span id = "GetTotalID"><?php echo array_sum($totalArray) ?></span></p>
 
 		  
 		<!-- Button trigger modal -->
@@ -162,7 +159,7 @@ if ($result->num_rows > 0) {
 		 <i class="icofont-plus"></i> Create account
 		</button>
 		  
-		<button type="button" class="btn btn-secondary" onclick="CopyTotalText()"><i class="icofont-ui-copy"></i> Copy total</button>
+		<button id = "CopyBtn" type="button" class="btn btn-secondary"><i class="icofont-ui-copy"></i> Copy balance</button>
 		 
 		</div>
 
@@ -171,8 +168,6 @@ if ($result->num_rows > 0) {
 	
 	
 	
-		
-		
 		<!-- Modal -->
 		<div class="modal fade" id="createAccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog" role="document">
@@ -261,23 +256,16 @@ if ($result->num_rows > 0) {
 		
 	} );
 	
-	/* Copy total 
-	https://www.w3schools.com/howto/howto_js_copy_clipboard.asp
-	*/
-	function CopyTotalText() {
-	  /* Get the text field */
-	  var copyText = document.getElementById("#GetTotalID");
-
-	  /* Select the text field */
-	  copyText.select();
-	  copyText.setSelectionRange(0, 99999); /* For mobile devices */
-
-	   /* Copy the text inside the text field */
-	  navigator.clipboard.writeText(copyText.value);
-
-	  /* Alert the copied text */
-	  alert("Copied the text: " + copyText.value);
-	} 
+	<!-- Source: https://www.codehaven.co.uk/jquery/jquery-tricks/copy-text-from-a-div-to-clipboard-cut-and-paste/
+	-->
+	$(document).on('click', '#CopyBtn', function() { 
+		var range = document.createRange();
+		range.selectNode(document.getElementById("GetTotalID"));
+		window.getSelection().removeAllRanges(); // clear current selection
+		window.getSelection().addRange(range); // to select text
+		document.execCommand("copy");
+		window.getSelection().removeAllRanges();// to deselect
+	});
 	
 </script>
 

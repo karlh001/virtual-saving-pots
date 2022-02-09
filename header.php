@@ -14,6 +14,7 @@ include("php/cnx.php");
 <link rel="stylesheet" href="plugins/jquery/chosen-plugin/docsupport/prism.css">
 <link rel="stylesheet" href="plugins/jquery/chosen-plugin/chosen.css">
 
+<link rel="icon" type="image/x-icon" href="img/icon.png">
 
 <title>Virtual Saving Pots</title>
 
@@ -59,4 +60,4 @@ include("php/cnx.php");
     </nav>
     
     
-     <main role="main" class="container" style="padding-top:100px;">
+     <main role="main" class="container" style="padding-top:10px;">

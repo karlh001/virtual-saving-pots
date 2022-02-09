@@ -201,7 +201,8 @@
 			 // Create a new transaction form
 		  ?>
 		  
-		 
+		  <p style = "text-align:right;"><a href="php/delete_account.php?ref=<?php echo $acc ?>&confirm=yes" class="btn btn-danger" role="button">Delete</a></p>
+		
 			<br>
 			<form action = 'php/inc_trans_add.php' method = 'POST'>
 			

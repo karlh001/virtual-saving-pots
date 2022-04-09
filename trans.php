@@ -27,6 +27,8 @@
 						
 						$id = $row["accountID"];
 						$accName = $row["acc_name"];
+						$accDesc = $row["acc_comment"];
+						$accNote = $row["acc_notes"];
 				 
 			 }
 			 
@@ -40,8 +42,11 @@
 
 		echo "<h1>$accName</h1>";
 
-		// gets list of accounts
+		// Gets list of accounts
 
+		// Check if able to view all
+		
+		if ( $_GET["view"] == "all" ) {
 			$sql = "
 			SELECT * FROM accountsT
 			LEFT JOIN transactionsT
@@ -49,6 +54,20 @@
 			WHERE tran_enabled > 0
 			AND acc_ref = '$acc'
 			";
+		} else {
+			$sql = "
+			SELECT * FROM accountsT
+			LEFT JOIN transactionsT
+			ON transactionsT.trans_accountID = accountsT.accountID
+			WHERE tran_enabled > 0
+			AND acc_ref = '$acc'
+			LIMIT 50
+			";
+			
+			// Sets limit variable
+			$Limit = 1;
+			
+		}
 
 			$result = $conn->query($sql);
 
@@ -58,6 +77,16 @@
 						echo "
 						<div class='alert alert-success'>
 						  <strong>Success!</strong> New transaction added.
+						</div>";
+						
+							
+				}	
+				
+				if ( $_GET["msg"] == "done-copy" ) {
+						
+						echo "
+						<div class='alert alert-success'>
+						  <strong>Success!</strong> Transaction copied.
 						</div>";
 						
 							
@@ -89,7 +118,7 @@
 				}
 				
 				
-									if ( $_GET["msg"] == "error-acc" ) {
+						if ( $_GET["msg"] == "error-acc" ) {
 						
 							echo "
 						<div class='alert alert-danger'>
@@ -123,7 +152,7 @@
 						
 							<th>Date</th>
 							<th>Description</th>
-							<th>Amount (£)</th>
+							<th>Amount</th>
 							<th></th>
 							
 						</tr>
@@ -137,6 +166,7 @@
 					
 				
 		// Display results
+		$Counter = 0;
 
 		if ($result->num_rows > 0) {
 			
@@ -144,22 +174,39 @@
 			 while($row = $result->fetch_assoc()) {
 						
 						$id = $row["accountID"];
-						
+						$TransID = $row["transID"];
 						
 				echo "\n<tr>
 				
 									
 							<td>" . $row["tran_date"] . "</td>
 							<td>" . $row["tran_comment"]  . "</td>
-							<td>" . $row["tran_amount"] . "</td>
-							<td><a href = 'php/delete_trans.php?ref= " . $row["transID"] ."&acc=" . $acc . "' title = 'Delete transaction'><i class='fa fa-trash-o' aria-hidden='true'></i>
-		</a></td>
+							<td>" . $row["tran_amount"] . "</td>";
+							
+							// Check date and if less than 5 days then disable delete
+							
+							
+							//7 days ago - last week.
+							$lastWeek = date("Y-m-d", strtotime("-7 days"));
+							
+							$time1 = strtotime($row["tran_date"]);
+							$time2 = strtotime($lastWeek);
+							
+							If ( $row["tran_date"] < $lastWeek ) {
+							  echo "<td><i class='icofont-ui-delete'></i> ";
+							  echo "<a href='php/copy.php?id=$TransID&ref=$acc'><i class='icofont-ui-copy'></i></a></td>";
+							} else {
+							  echo "<td><a href = 'php/delete_trans.php?ref= " . $row["transID"] ."&acc=" . $acc . "' title = 'Delete transaction'><i class='icofont-ui-delete'></i></a> ";
+							  echo "<a href='php/copy.php?id=$TransID&ref=$acc'><i class='icofont-ui-copy'></i></a></td>";
+							}
 
-				
+
+			echo "
 				\n</tr>";
 				
 			}
 			
+			$Counter++;
 			
 		} else {
 			
@@ -197,30 +244,129 @@
 									
 							}
 						}
+						
+			// Display view all transaction link
+			If ( $Limit > 0 and $Counter > 50 ) {
+			echo "<i class='icofont-info-circle'></i> Transactions limited to 50 <a href='trans.php?ref=$acc&view=all' title='View all transaction may take longer to load'>View all</a>";
+			}	
+			
+			
 			
 			 // Create a new transaction form
 		  ?>
 		  
-		  <p style = "text-align:right;"><a href="php/delete_account.php?ref=<?php echo $acc ?>&confirm=yes" class="btn btn-danger" role="button">Delete</a></p>
+		  <p style = "text-align:right;">
+		  <!-- Button trigger modal -->
+		  <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#ChangeAccModal">Edit</button> 
+		  <a href="php/delete_account.php?ref=<?php echo $acc ?>&confirm=yes" class="btn btn-danger" role="button">Delete</a></p>
 		
 			<br>
-			<form action = 'php/inc_trans_add.php' method = 'POST'>
+
+			
+			
+			<div class="container">
+			  <div class="row">
+				<div class="col">
+				  	
+					<form action = 'php/inc_trans_add.php' method = 'POST'>
 			
 
-				<input type = 'text' value = '<?php echo $id ?>' name = 'id' hidden>
-				<input type = 'text' value = '<?php echo $acc ?>' name = 'ref' hidden>
+						<input type = 'text' value = '<?php echo $id ?>' name = 'id' hidden>
+						<input type = 'text' value = '<?php echo $acc ?>' name = 'ref' hidden>
+							
+						Date <input type="text" id = 'datepicker' name = 'date' value = '<?php echo date("Y-m-d") ?>'><br>
+						Description <input type = 'text' name = 'comment'><br>
+						Amount <input type = 'text' id = 'amount' name = 'amount' value = '0.00'><br>
+						<input type='checkbox' name='addcheck' value='1'> Increase<br><br>
+						<input type = 'submit' value = 'Add'>
 
-				Date <input type = 'text' id = 'datepicker' name = 'date' value = '<?php echo date("Y-m-d") ?>'><br>
-				Description <input type = 'text' name = 'comment'><br>
-				Amount <input type = 'text' id = 'amount' name = 'amount' value = '0.00'><br>
-				<input type='checkbox' name='addcheck' value='1'> Increase<br><br>
-				<input type = 'submit' value = 'Add'>
-
-			</form>
+					</form>
+				</div>
+				
+				<div class="col">
+				  <!-- Notes -->
+					  <form id = "SaveNoteForm">
+						<input type = 'text' value = '<?php echo $id ?>' id = 'Acc' name = 'Acc' hidden>
+						  <div class="form-group row">
+							<div class="col-8">
+							  <textarea id="AccNotes" name="AccNotes" cols="40" rows="5" class="form-control"><?php echo $accNote ?></textarea>
+							</div>
+						  </div> 
+						  <div class="form-group row">
+							<div class="col-8">
+							  <button name="submit" type="submit" class="btn btn-primary">
+							  <i class="icofont-save"></i> Save</button>
+							  <i id="SuccessTick" style="color:darkgreen; display:none;" class="icofont-check-circled"></i>
+							  <i id="ErrorCross" style="color:red; display:none;" class="icofont-error"></i>
+							</div>
+						  </div>
+						</form>
+				</div>
+			  </div>
+			</div>
 			
+			
+		<!-- Change account name modal -->
+
+				<div class="modal" id="ChangeAccModal" tabindex="-1" role="dialog">
+				  <div class="modal-dialog" role="document">
+					<div class="modal-content">
+					  <div class="modal-header">
+						<h5 class="modal-title">Edit Account Details</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						  <span aria-hidden="true">&times;</span>
+						</button>
+					  </div>
+					  <div class="modal-body">
+					  
+					  <div id = "errorMsgChangeAccount" class="alert alert-danger">
+						  <strong>Error!</strong> <span class = "errorMsgTextChangeAccount"></span>
+						</div>
+					  
+						<p>Change account name and short description.</p>
+						
+						<form id = "ChangeFrm">
+						<input type = 'text' value = '<?php echo $acc ?>' id = 'account' name = 'account' hidden>
+						  <div class="form-group row">
+							<label for="name" class="col-3 col-form-label">Pot name</label> 
+							<div class="col-9">
+							  <div class="input-group">
+								<div class="input-group-prepend">
+								  <div class="input-group-text">
+									<i class="icofont-money-bag"></i>
+								  </div>
+								</div> 
+								<input id="name" name="name" type="text" class="form-control" value="<?php echo $accName; ?>">
+							  </div>
+							</div>
+						  </div>
+						  <div class="form-group row">
+							<label for="desc" class="col-3 col-form-label">Description</label> 
+							<div class="col-9">
+							  <div class="input-group">
+								<div class="input-group-prepend">
+								  <div class="input-group-text">
+									<i class="icofont-comment"></i>
+								  </div>
+								</div> 
+								<input id="desc" name="desc" type="text" class="form-control" value="<?php echo $accDesc; ?>">
+							  </div>
+							</div>
+						  </div> 
+							
+					  </div>
+					  <div class="modal-footer">
+						<button type="submit" class="btn btn-primary">Save</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					  </form></div>
+					</div>
+				  </div>
+				</div>
+						
 
 		<script type="text/javascript">$("#amount").maskMoney();</script>
-
+		<script src="js/save_note.js"></script>
+		<script src="js/change_account.js"></script>
 
 		<script>
 
@@ -240,10 +386,11 @@
 			} );
 			
 			
-			$( function() {
-				$('#datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
-			} );
-	  
+
+			$('#datepicker').datepicker({
+				format: 'mm/dd/yyyy',
+				startDate: '-3d'
+			});
 			
 		</script>
 

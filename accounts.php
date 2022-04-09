@@ -60,15 +60,15 @@ $result = $conn->query($sql);
 
 
 
-	<table id='accounts' class='hover' width='100%' cellspacing='0'>
+	<table id='accounts' class='hover' width='100%' cellspacing='0' lass="display nowrap">
     
         <thead>
         
             <tr>
             
-                <th>Account Name</th>
+                <th data-priority="1">Account Name</th>
                 <th>Comment</th>
-                <th>Balance</th>
+                <th data-priority="2">Balance</th>
                 
             </tr>
             
@@ -241,16 +241,19 @@ if ($result->num_rows > 0) {
 	$(document).ready(function() {
 	
 		$('#accounts').DataTable( {
-		
-		'lengthMenu': [[10, 25, 50, 100, 200, -1], [10, 25, 50, 100, 200, 'All']],
-		'iDisplayLength': 50,
+
 		'order': [[ 2, 'desc' ]],
-				
+		responsive: true,
+			columnDefs: [
+				{ responsivePriority: 1, targets: 0 },
+				{ responsivePriority: 2, targets: -1 }
+			]
+						
 		} );
 		
 		
 		$('#createAccount').on('shown.bs.modal', function () {
-		  $('#myInput').trigger('focus')
+		$('#myInput').trigger('focus')
 		})
 		
 		

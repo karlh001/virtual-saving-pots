@@ -9,10 +9,7 @@ include("php/cnx.php");
 
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<link rel="stylesheet" href="css/global_styles.css">
 <link rel="stylesheet" href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="plugins/jquery/chosen-plugin/docsupport/prism.css">
-<link rel="stylesheet" href="plugins/jquery/chosen-plugin/chosen.css">
 
 <link rel="icon" type="image/x-icon" href="img/icon.png">
 
@@ -30,9 +27,6 @@ include("php/cnx.php");
 
 <!--Plug-ins-->
 <script src="plugins/jquery/inputMeter.js"></script>
-<script src="plugins/jquery/blockUI.js"></script>
-<script src="plugins/jquery/chosen-plugin/chosen.jquery.js" type="text/javascript"></script>
-<script src="plugins/jquery/chosen-plugin/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
 <script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 <script src="plugins/moneymask/src/jquery.maskMoney.js" type="text/javascript"></script>
 

@@ -53,6 +53,7 @@
 			ON transactionsT.trans_accountID = accountsT.accountID
 			WHERE tran_enabled > 0
 			AND acc_ref = '$acc'
+			ORDER BY tran_date DESC
 			";
 		} else {
 			$sql = "
@@ -61,6 +62,7 @@
 			ON transactionsT.trans_accountID = accountsT.accountID
 			WHERE tran_enabled > 0
 			AND acc_ref = '$acc'
+			ORDER BY tran_date DESC
 			LIMIT 50
 			";
 			
@@ -203,10 +205,13 @@
 
 			echo "
 				\n</tr>";
-				
+			
+			// Add to counter
+			$Counter++;	
+			
 			}
 			
-			$Counter++;
+			
 			
 		} else {
 			
@@ -246,7 +251,7 @@
 						}
 						
 			// Display view all transaction link
-			If ( $Limit > 0 and $Counter > 50 ) {
+			If ( $Limit > 0 and $Counter > 49 ) {
 			echo "<i class='icofont-info-circle'></i> Transactions limited to 50 <a href='trans.php?ref=$acc&view=all' title='View all transaction may take longer to load'>View all</a>";
 			}	
 			
@@ -373,8 +378,10 @@
 			$(document).ready(function() {
 			
 				$('#transTbl').DataTable( {
-					
-						
+				
+				buttons: [
+					'copy', 'excel', 'pdf'
+				],				
 				'lengthMenu': [[10, 25, 50, 100, 200, -1], [10, 25, 50, 100, 200, 'All']],
 				'iDisplayLength': 10,
 				 'order': [[ 0, 'desc' ]]

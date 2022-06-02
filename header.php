@@ -10,6 +10,7 @@ include("php/cnx.php");
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <link rel="stylesheet" href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 
 <link rel="icon" type="image/x-icon" href="img/icon.png">
 
@@ -27,6 +28,7 @@ include("php/cnx.php");
 
 <!--Plug-ins-->
 <script src="plugins/jquery/inputMeter.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
 <script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 <script src="plugins/moneymask/src/jquery.maskMoney.js" type="text/javascript"></script>
 

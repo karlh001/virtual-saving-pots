@@ -18,3 +18,9 @@ This is a basic self-hosed web-based application to separate virtual savings pot
  - Use button 'Create account' to create a virtual pot, e.g. emergency fund, holiday, bills, etc.
  - Click the account at the bottom of the transaction list add a description and amount to post the transaction
  - If the transaction increases the account value, check 'Increase' otherwise leave unchecked to decrease the transaction.
+
+## Credits
+
+ - [JQuery](https://jquery.com/)
+ - [Moneymask](https://travis-ci.org/plentz/jquery-maskmoney)
+ - [Icofont](https://www.icofont.com/)

@@ -27,7 +27,6 @@ include("php/cnx.php");
 <link rel="stylesheet" href="plugins/icofont/icofont.min.css">
 
 <!--Plug-ins-->
-<script src="plugins/jquery/inputMeter.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
 <script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 <script src="plugins/moneymask/src/jquery.maskMoney.js" type="text/javascript"></script>

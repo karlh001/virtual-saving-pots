@@ -265,26 +265,70 @@
 		  <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#ChangeAccModal">Edit</button> 
 		  <a href="php/delete_account.php?ref=<?php echo $acc ?>&confirm=yes" class="btn btn-danger" role="button">Delete</a></p>
 		
-			<br>
 
-			
-			
 			<div class="container">
 			  <div class="row">
 				<div class="col">
 				  	
 					<form action = 'php/inc_trans_add.php' method = 'POST'>
-			
-
+									
+						<div class="form-group">
+						<label for="date">Date</label> 
+						<div class="input-group">
+						  <div class="input-group-prepend">
+							<div class="input-group-text">
+							  <i class="icofont-ui-calendar"></i>
+							</div>
+						  </div> 
+						  <input id="datepicker" name="date" type="text" required="required" class="form-control" value="<?php echo date("Y-m-d") ?>">
+						</div>
+						</div>
+						<div class="form-group">
+						<label for="comment">Description</label> 
+						<div class="input-group">
+						  <div class="input-group-prepend">
+							<div class="input-group-text">
+							  <i class="icofont-pencil"></i>
+							</div>
+						  </div> 
+						  <input id="comment" name="comment" type="text" required="required" class="form-control">
+						</div>
+						</div>
+						<div class="form-group">
+						<label for="amount">Amount</label> 
+						<div class="input-group">
+						  <div class="input-group-prepend">
+							<div class="input-group-text">
+							  <i class="icofont-bill-alt"></i>
+							</div>
+						  </div> 
+						  <input id="amount" name="amount" type="text" required="required" class="form-control">
+						</div>
+						</div>
+						<div class="form-group">
+						<label></label> 
+						<div>
+						  <div class="custom-control custom-checkbox custom-control-inline">
+							<input name="addcheck" id="addcheck" type="checkbox" class="custom-control-input" value="1"> 
+							<label for="addcheck" class="custom-control-label">Increase</label>
+						  </div>
+						</div>
+						</div> 
+						<div class="form-group">
+						<button name="submit" type="submit" class="btn btn-primary">Add</button>
+						</div>
+								
+											
 						<input type = 'text' value = '<?php echo $id ?>' name = 'id' hidden>
 						<input type = 'text' value = '<?php echo $acc ?>' name = 'ref' hidden>
-							
+						
+<!--						
 						Date <input type="text" id = 'datepicker' name = 'date' value = '<?php echo date("Y-m-d") ?>'><br>
 						Description <input type = 'text' name = 'comment'><br>
 						Amount <input type = 'text' id = 'amount' name = 'amount' value = '0.00'><br>
 						<input type='checkbox' name='addcheck' value='1'> Increase<br><br>
 						<input type = 'submit' value = 'Add'>
-
+						-->
 					</form>
 				</div>
 				
@@ -395,7 +439,7 @@
 			
 
 			$('#datepicker').datepicker({
-				format: 'mm/dd/yyyy',
+				format: 'yyyy/mm/dd',
 				startDate: '-3d'
 			});
 			

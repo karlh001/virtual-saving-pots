@@ -1,3 +1,30 @@
+<!--
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Thank you for using Virtual Saving Pots
+By Karl on GitHub
+Email: karldev@fastmail.co.uk
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Source code:
+https://github.com/karlh001/virtual-saving-pots
+
+Licence 
+https://github.com/karlh001/virtual-saving-pots/blob/master/LICENCE
+
+Issue tracking
+https://github.com/karlh001/virtual-saving-pots/issues
+
+
+
+
+
+
+
+
+-->
 <?php // connect to the database
 include("php/cnx.php");
 ?>

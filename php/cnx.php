@@ -3,7 +3,7 @@
 
 
 ### What's the database name?
-$Base_DName = "budget_app_dev";
+$Base_DName = "budget_app";
 
 ### What's the username for the database?
 $Base_UName = "karl";

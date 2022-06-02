@@ -12,6 +12,7 @@
          >
       &copy; 2022
       <a class="text-dark" href="https://github.com/karlh001/virtual-saving-pots">karlh001</a>
+	  <br><small>Version 1.0</small>
     </div>
     <!-- Copyright -->
   </footer>

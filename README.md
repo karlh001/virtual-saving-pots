@@ -1,5 +1,10 @@
 # Virtual Savings Pots
 
+## Screenshot
+
+![budget_screenshot](https://user-images.githubusercontent.com/95538536/171669893-1ac40a34-08ce-49b9-a842-0ecce2e5034d.JPG)
+
+
 ## About
 This is a basic self-hosed web-based application to separate virtual savings pots. Instead of creating multiple savings account at your bank, open one saving account and separate into virtual pots with this application.
 

@@ -265,10 +265,10 @@
 		  <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#ChangeAccModal">Edit</button> 
 		  <a href="php/delete_account.php?ref=<?php echo $acc ?>&confirm=yes" class="btn btn-danger" role="button">Delete</a></p>
 		
-
+			<!-- Container for transaction form and account note form -->
 			<div class="container">
-			  <div class="row">
-				<div class="col">
+			   <div class="row justify-content-md-center">
+				<div class="col col-sm">
 				  	
 					<form action = 'php/inc_trans_add.php' method = 'POST'>
 									
@@ -280,7 +280,7 @@
 							  <i class="icofont-ui-calendar"></i>
 							</div>
 						  </div> 
-						  <input id="datepicker" name="date" type="text" required="required" class="form-control" value="<?php echo date("Y-m-d") ?>">
+						  <input id="datepicker" name = "date" type="text" required="required" class="form-control" value="<?php echo date("Y-m-d") ?>">
 						</div>
 						</div>
 						<div class="form-group">
@@ -322,18 +322,15 @@
 						<input type = 'text' value = '<?php echo $id ?>' name = 'id' hidden>
 						<input type = 'text' value = '<?php echo $acc ?>' name = 'ref' hidden>
 						
-<!--						
-						Date <input type="text" id = 'datepicker' name = 'date' value = '<?php echo date("Y-m-d") ?>'><br>
-						Description <input type = 'text' name = 'comment'><br>
-						Amount <input type = 'text' id = 'amount' name = 'amount' value = '0.00'><br>
-						<input type='checkbox' name='addcheck' value='1'> Increase<br><br>
-						<input type = 'submit' value = 'Add'>
-						-->
 					</form>
-				</div>
+				</div><!-- end of container div -->
 				
-				<div class="col">
-				  <!-- Notes -->
+				
+				 
+				 <div class="w-100"></div>	
+				 
+				 <div class="col col-sm">
+				  <!-- Note form  -->
 					  <form id = "SaveNoteForm">
 						<input type = 'text' value = '<?php echo $id ?>' id = 'Acc' name = 'Acc' hidden>
 						  <div class="form-group row">
@@ -350,6 +347,7 @@
 							</div>
 						  </div>
 						</form>
+						
 				</div>
 			  </div>
 			</div>
@@ -413,36 +411,34 @@
 				</div>
 						
 
+		<!--
+				Additional scripts to load
+				Load moneymask plugin
+				Save note jquery script
+				and change account jquery script
+		-->
 		<script type="text/javascript">$("#amount").maskMoney();</script>
 		<script src="js/save_note.js"></script>
 		<script src="js/change_account.js"></script>
 
 		<script>
-
+			<!-- Sets datatable options -->
 			$(document).ready(function() {
 			
 				$('#transTbl').DataTable( {
 				
-				buttons: [
-					'copy', 'excel', 'pdf'
-				],				
 				'lengthMenu': [[10, 25, 50, 100, 200, -1], [10, 25, 50, 100, 200, 'All']],
 				'iDisplayLength': 10,
 				 'order': [[ 0, 'desc' ]]
 					
 				});
 				
+				$('#datepicker').datepicker({
+					format: 'yyyy/mm/dd',
+					startDate: '-3d'
+				});
 				
-				
-			} );
-			
-			
-
-			$('#datepicker').datepicker({
-				format: 'yyyy/mm/dd',
-				startDate: '-3d'
 			});
-			
 		</script>
 
 

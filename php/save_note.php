@@ -5,7 +5,6 @@
 	$Acc = strip_tags($_POST["Acc"]);
 	$Note = strip_tags($_POST["AccNotes"]);
 	
-
 	// update note
 
 	$postP = "

@@ -243,8 +243,14 @@
 								// output data of each row
 								while($row2 = $result2->fetch_assoc()) {
 									
+									// Total account balance modal
+									echo "
 									
-									echo "<p style = 'text-size: 20px'>Total: <b>£ " . $row2['total'] . "</b></p>";
+									<div class='alert alert-info' role='alert'>
+									  Total: <b>£ " . $row2['total'] . "</b>
+									</div>
+									
+									";
 
 									
 							}
@@ -366,7 +372,7 @@
 					  </div>
 					  <div class="modal-body">
 					  
-					  <div id = "errorMsgChangeAccount" class="alert alert-danger">
+					  <div id = "errorMsgChangeAccount" class="alert alert-danger" style = "display: none;">
 						  <strong>Error!</strong> <span class = "errorMsgTextChangeAccount"></span>
 						</div>
 					  

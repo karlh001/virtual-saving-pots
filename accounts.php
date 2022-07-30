@@ -2,6 +2,29 @@
 
 include("header.php");
 
+session_start();
+
+
+// Check if new session
+if ($_GET["p"] == TRUE) {
+	
+	// Set the session from URL
+	$_SESSION["profileID"] = strip_tags($_GET["p"]);
+
+} else {
+
+	// However if no ID found from URL, check if session exisits
+	if ($_SESSION["profileID"] === FALSE) {
+		echo "<h3>No profile selected.</h3><br><a href='account.php?p=1' title = 'Select the default profile'>Default</a>'";
+		include("footer.php");
+		exit;
+	}
+		
+}
+
+// Set profile ID to session
+$ProfileID = $_SESSION["profileID"];
+	
 
 
 	if ( $_GET["do"] == "new" ) {
@@ -22,7 +45,7 @@ include("header.php");
 
 // gets list of accounts
 
-$sql = "SELECT * from accountsT WHERE acc_enabled > 0";
+$sql = "SELECT * from accountsT WHERE acc_enabled > 0 AND profile_ID = $ProfileID";
 
 $result = $conn->query($sql);
 

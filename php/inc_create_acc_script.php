@@ -2,6 +2,8 @@
 
 include("cnx.php");
 
+session_start();
+
 // Script to add new account to the db
 
 
@@ -26,11 +28,15 @@ include("cnx.php");
 
 	$code = rand_string( 10 );
 	
+	
+	// Get profile ID
+	$profileID = $_SESSION["profileID"];
+	
 	mysqli_next_result($conn);
 	
 	$insertAcc = "
-	INSERT INTO `accountsT` (`acc_ref`, `acc_name`, `acc_comment`, `acc_enabled`)
-	VALUES ('$code', '$accName', '$accComment', '1')";
+	INSERT INTO `accountsT` (`profile_ID`, `acc_ref`, `acc_name`, `acc_comment`, `acc_enabled`)
+	VALUES ('$profileID', '$code', '$accName', '$accComment', '1')";
 
 	$result = mysqli_query($conn,$insertAcc) or die ("Error: could not write to db " . mysqli_error($conn));
 

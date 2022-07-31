@@ -25,8 +25,18 @@ https://github.com/karlh001/virtual-saving-pots/issues
 
 
 -->
-<?php // connect to the database
+<?php
+
+session_start(); // starts the php session
+session_regenerate_id(); // regenerates session key
+#error_reporting(0);
+
 include("php/cnx.php");
+
+
+// Get profiles
+include("php/get_profile.php");
+
 ?>
 
 <!DOCTYPE html>
@@ -84,6 +94,70 @@ include("php/cnx.php");
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+
+
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav mr-auto">
+		  <li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			  Profiles
+			</a>
+			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			 
+
+			 <?php
+			 
+			 // Load the cached profiles on the menu bar
+			 
+			 $ProfileIndex = $_SESSION["profile_index"];
+
+				$counter=0;
+					
+				foreach ($ProfileIndex as $value) {
+				  
+					
+					if ( $counter > 10 ) {
+						
+						echo " <a class='dropdown-item' href='manage_profiles.php' title = 'Choose more profiles'>More ...</a>";
+						exit();
+						
+					}
+					
+					// Get JSON from session
+					
+					$Profile_JSON = $_SESSION["ProfileID_" . $value];
+				  
+					// Decode the JSON format
+					$obj = json_decode($Profile_JSON);
+				  
+					// Extract variables
+					$profileID = $obj->ID;
+					$profilename = $obj->Name;
+					$profiledescription = $obj->Description;
+				  
+					// Out put to HTML
+
+					echo " <a class='dropdown-item' href='accounts.php?p=$profileID' title = '$profiledescription'>$profilename</a>\n";
+
+					$counter++;
+				
+				}
+				
+			 
+			 ?>
+
+
+			  <div class="dropdown-divider"></div>
+			  <a class="dropdown-item" href="#">Manage profiles</a>
+			</div>
+		  </li>
+	  
+				<li class="nav-item">
+			<a class="nav-link disabled" href="#"><?php echo $_SESSION["profile_name"]; ?></a>
+		  </li>
+		</ul>
+	  
+	  </div>
 
     </nav>
     

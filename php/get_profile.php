@@ -7,8 +7,10 @@
 #
 
 	// Check if using cache
+	// 1 = do not rebuild
+	// 2 = rebuild
 
-	if ( $_SESSION["profile_use_cache"] == FALSE ) { # 1 or not empty
+	if ( $_SESSION["profile_rebuild_cache"] > 1 OR $_SESSION["profile_rebuild_cache"] == FALSE ) { # 2 means to query SQL to rebuild the cache
 
 		// Rebuild the cache
 		$sql = "
@@ -38,11 +40,20 @@
 				 }
 				 
 			}
+			
+			
+		// Set variable to use profile cache
+		$_SESSION["profile_rebuild_cache"] = 1;
+		$_SESSION["profile_index"] = $ProfileIndex;	
+			
+		$_SESSION["log_profile_cache"] = "Generated profile cache";
 
+	} else {
+		
+		$_SESSION["log_profile_cache"] = "Using profile cache";
+			
 	}
 	
-	// Set variable to use profile cache
-	$_SESSION["profile_use_cache"] = 1;
-	$_SESSION["profile_index"] = $ProfileIndex;
+
 
 ?>

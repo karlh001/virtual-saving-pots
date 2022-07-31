@@ -1,3 +1,10 @@
+<?php
+ob_start( 'ob_gzhandler' ); 
+session_start(); // starts the php session
+session_regenerate_id(); // regenerates session key
+error_reporting(0);
+?>
+
 <!--
 
 
@@ -24,18 +31,70 @@ https://github.com/karlh001/virtual-saving-pots/issues
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 -->
 <?php
 
-session_start(); // starts the php session
-session_regenerate_id(); // regenerates session key
-#error_reporting(0);
 
 include("php/cnx.php");
 
+	// Check if new session
+	if ($_GET["p"] == TRUE) {
+		
+		// Set the session from URL
+		$_SESSION["profileID"] = strip_tags($_GET["p"]);
+				
+		
+		$Profile_ID_session = $_SESSION["profileID"];
+		
+			// Get profile name from JSON
+				
+				$Profile_JSON = $_SESSION["ProfileID_" . $Profile_ID_session];
+			  
+				// Decode the JSON format
+				$obj = json_decode($Profile_JSON);
+			  
+				// Extract variables
+				$profilename = $obj->Name;
+				$profiledescription = $obj->Description;
+			  
+				// Output to SESSION
+				
+				$_SESSION["profile_name"] = $profilename;
+				$_SESSION["profile_description"] = $profiledescription;
+
+
+	} else {
+
+		// However if no ID found from URL, check if session exisits
+		if ( $_SESSION["profileID"] == FALSE ) {
+		echo "<h3>No profile selected.</h3><br><a href='accounts.php?p=1' title = 'Select the default profile'>Default</a>";
+		include("footer.php");
+		exit;
+		}
+			
+	}
+
+	// Set profile ID to session
+	$ProfileID = $_SESSION["profileID"];
 
 // Get profiles
 include("php/get_profile.php");
+
+
+
 
 ?>
 

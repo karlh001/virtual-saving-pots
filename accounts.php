@@ -4,51 +4,6 @@ include("header.php");
 
 
 
-// Check if new session
-if ($_GET["p"] == TRUE) {
-	
-	// Set the session from URL
-	$_SESSION["profileID"] = strip_tags($_GET["p"]);
-	$_SESSION["profile_use_cache"] = 0;
-	
-	
-	#$Profile_ID_session = $_SESSION["profileID"];
-	
-		// Get profile name from JSON
-	  		
-	#		$Profile_JSON = $_SESSION["ProfileID_" . $Profile_ID_session];
-		  
-			// Decode the JSON format
-	#		$obj = json_decode($Profile_JSON);
-		  
-			// Extract variables
-	##		$profilename = $obj->Name;
-		#	$profiledescription = $obj->Description;
-	#	  
-			// Output to SESSION
-			
-	#		$_SESSION["profile_name"] = $profilename;
-	#		$_SESSION["profile_description"] = $profiledescription;
-
-			
-	
-
-} else {
-
-	// However if no ID found from URL, check if session exisits
-	if ( $_SESSION["profileID"] == FALSE ) {
-	echo "<h3>No profile selected.</h3><br><a href='accounts.php?p=1' title = 'Select the default profile'>Default</a>";
-	include("footer.php");
-	exit;
-	}
-		
-}
-
-// Set profile ID to session
-$ProfileID = $_SESSION["profileID"];
-	
-
-
 	if ( $_GET["do"] == "new" ) {
 
 		include("php/inc_create_acc.php");

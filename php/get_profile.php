@@ -39,6 +39,13 @@
 
 				 }
 				 
+			} else {
+				
+			 // Table not found, could be previous database 1.0.X
+			 echo "<h2 style ='color: red;'>Please upgrade database</h2>
+			 If you have just upgraded from 1.0.X to 1.1.X then please visit <a href='https://github.com/karlh001/virtual-saving-pots/discussions/5'>upgrade database</a>";
+			 exit();
+			 
 			}
 			
 			

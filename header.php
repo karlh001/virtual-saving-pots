@@ -195,9 +195,16 @@ include("php/get_profile.php");
 					$profiledescription = $obj->Description;
 				  
 					// Out put to HTML
-
-					echo " <a class='dropdown-item' href='accounts.php?p=$profileID' title = '$profiledescription'>$profilename</a>\n";
-
+					if ( $value == $_SESSION["profileID"] ) {
+						// Display open folder
+						echo " <a class='dropdown-item' href='accounts.php?p=$profileID' title = '$profiledescription'><i class='icofont-ui-folder'></i> $profilename</a>\n";
+					
+					} else {
+						// Display closed folder
+						echo " <a class='dropdown-item' href='accounts.php?p=$profileID' title = '$profiledescription'><i class='icofont-folder'></i> $profilename</a>\n";
+					
+					}
+					
 					$counter++;
 				
 				}

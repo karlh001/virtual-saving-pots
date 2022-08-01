@@ -51,7 +51,7 @@ https://github.com/karlh001/virtual-saving-pots/issues
 include("php/cnx.php");
 
 	// Check if new session
-	if ($_GET["p"] == TRUE) {
+	if ($_GET["p"] == TRUE ) {
 		
 		// Set the session from URL
 		$_SESSION["profileID"] = strip_tags($_GET["p"]);
@@ -79,9 +79,15 @@ include("php/cnx.php");
 	} else {
 
 		// However if no ID found from URL, check if session exisits
-		if ( $_SESSION["profileID"] == FALSE ) {
-		echo "<h3>No profile selected.</h3><br><a href='accounts.php?p=1' title = 'Select the default profile'>Default</a>";
-		include("footer.php");
+		// Ignore ref to prevent loop refreshing
+		if ( $_SESSION["profileID"] == FALSE AND $_GET["ref"] !== "no_profile_selected" ) {
+
+		// Redirect to profiles page
+		echo "
+			<script>
+			window.location.replace('profiles.php?ref=no_profile_selected');
+			</script>
+			";
 		exit;
 		}
 			
@@ -214,7 +220,7 @@ include("php/get_profile.php");
 
 
 			  <div class="dropdown-divider"></div>
-			  <a class="dropdown-item" href="#">Manage profiles</a>
+			  <a class="dropdown-item" href="profiles.php">Manage profiles</a>
 			</div>
 		  </li>
 	  

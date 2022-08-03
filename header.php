@@ -55,7 +55,9 @@ include("php/cnx.php");
 		
 		// Set the session from URL
 		$_SESSION["profileID"] = strip_tags($_GET["p"]);
-				
+
+		// Set rebuild account list
+		$_SESSION["account_rebuild_cache"] = 0;
 		
 		$Profile_ID_session = $_SESSION["profileID"];
 		

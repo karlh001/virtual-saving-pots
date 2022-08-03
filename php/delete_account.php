@@ -1,5 +1,7 @@
 <?php
 
+	session_start();
+	
 	// Deletes a given transaction
 
 	$ref = strip_tags($_GET["ref"]);
@@ -43,8 +45,14 @@
 
 
 			if ($conn->query($postP) === TRUE) {
+				
+				
+				// Delete account from JSON cache
+				unset($_SESSION['AccountID_' . $ref]);
+				unset($_SESSION['AccountBalance_' . $ref]);
+				$_SESSION["account_rebuild_cache"] = 0;
 			
-						echo "<script>
+			echo "<script>
 				window.location.href = '../accounts.php?msg=delete'
 				</script>
 				";
@@ -59,5 +67,6 @@
 				";
 			}
 
+		
 
 ?>

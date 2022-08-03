@@ -23,6 +23,11 @@
 				window.location.href = '../trans.php?msg=delete-acc&ref=" . $id . "'
 				</script>
 				";
+			
+			
+			// Rebuild account list
+			$_SESSION["account_rebuild_cache"] = 0;
+			
 			exit();
 			}
 

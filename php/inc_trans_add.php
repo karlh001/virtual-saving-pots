@@ -76,6 +76,9 @@ include("cnx.php");
 			window.location.href = '../trans.php?msg=done&ref=" . $ref . "'
 			</script>
 			";
+			
+			// Request account list rebuild
+			$_SESSION["account_rebuild_cache"] = 0;
 		exit();
 		}
 

@@ -32,7 +32,7 @@ include("cnx.php");
 
 		# Done, confirms:
 
-		//header("location:accounts.php?msg=success");
+		$_SESSION["account_use_cahce"] = 0;
 		echo "1";
 
 ?>

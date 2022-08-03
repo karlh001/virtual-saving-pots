@@ -19,14 +19,6 @@ include("header.php");
 // This page lists all acounts and their respective balances
 
 
-
-// gets list of accounts
-
-$sql = "SELECT * from accountsT WHERE acc_enabled > 0 AND profile_ID = $ProfileID";
-
-$result = $conn->query($sql);
-
-
 	if ( $_GET["msg"] == "success" ) {
 		
 			echo "
@@ -78,69 +70,24 @@ $result = $conn->query($sql);
         
  <?php
         
-        
-        
-// Display results
+		
+		
+	// Load accounts 
 
-if ($result->num_rows > 0) {
-	
-	
-     while($row = $result->fetch_assoc()) {
-				
-		echo "<tr>
+	if ( $_SESSION["account_rebuild_cache"] == 0 OR $_SESSION["account_rebuild_cache"] == FALSE) {
+		// Load page using the cache
+		include("php/inc_load_account_sql.php");
 		
-			\n<td><a href = 'trans.php?ref=" . $row["acc_ref"] . "' title = 'View transactions' class = 'accountlink'>" . $row["acc_name"] . "</a></td>";
-			
-			
-			
-			echo "<td>" . $row["acc_comment"] . "</td>";
-			
-			// Break to get account balances
-			
-				$id = $row["accountID"];
-			
-			
-		
-					// Get accounts sums
-
-					$sql2 = "SELECT SUM(tran_amount) as total FROM transactionsT WHERE trans_accountID = '$id' and tran_enabled > 0";
-					$result2 = $conn->query($sql2);
-					
-					
-
-					if ($result->num_rows > 0) {
-						// output data of each row
-						while($row2 = $result2->fetch_assoc()) {
-							
-							$totalArray[] = $row2['total'];
-							
-							if ( $row2['total'] == "" ) {
-								
-							echo "<td>0.00</td>";	// if the account has nil transactions display 0 balance						
-							
-							} else {
-							
-							echo "<td>" . $row2['total'] . "</td>";
-							
-							}
-						
-						}
-					} else {
-							echo "<td>0.00</td>";
-					}
-			
-		
-			
-			
-	echo "
-		
-		\n</tr>";
+	} else {
+		// Otherwise load the accounts using
+		// a SQL query
+		include("php/inc_load_account_cache.php");		
 		
 	}
-	
-	
-}
+
+					
         
+    
 ?>
           
         </tbody>

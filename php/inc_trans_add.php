@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include("cnx.php");
 
 
@@ -71,14 +71,17 @@ include("cnx.php");
 
 
 		if ($conn->query($postP) === TRUE) {
+			
+		// Request account list rebuild
+		$_SESSION["account_rebuild_cache"] = 0;
 		
 		echo "<script>
 			window.location.href = '../trans.php?msg=done&ref=" . $ref . "'
 			</script>
 			";
 			
-			// Request account list rebuild
-			$_SESSION["account_rebuild_cache"] = 0;
+
+			
 		exit();
 		}
 

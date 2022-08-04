@@ -103,44 +103,29 @@
 			$result = $conn->query($sql);
 
 
-				if ( $_GET["msg"] == "done" ) {
+				// Display message
+				if ( $_GET["msg"] == "1" ) {
 						
-						echo "
+						if ( $_GET["pro"] == 1 ) {
+							echo "
 						<div class='alert alert-success'>
-						  <strong>Success!</strong> New transaction added.
+							<strong>Success!</strong>
 						</div>";
-						
+						} else {
+						echo
+						"<div class='alert alert-danger'>
+							<strong>Error!</strong> Profile could not be created.
+						</div>";
+						}
 							
 				}	
 				
-				if ( $_GET["msg"] == "done-copy" ) {
-						
-						echo "
-						<div class='alert alert-success'>
-						  <strong>Success!</strong> Transaction copied.
-						</div>";
-						
-							
-				}
-				
-					if ( $_GET["msg"] == "fail" ) {
-						
-						
-							echo "
-						<div class='alert alert-danger'>
-						  <strong>Success!</strong> New transaction added.
-						</div>";
-						
-						
-					
-						
-				}
-				
+			
 						if ( $_GET["msg"] == "error" ) {
 						
 							echo "
 						<div class='alert alert-danger'>
-						  <strong>Error!</strong> Transaction could not be created.
+						  <strong>Error!</strong> Profile could not be created.
 						</div>";
 						
 						
@@ -148,30 +133,6 @@
 						
 				}
 				
-				
-						if ( $_GET["msg"] == "error-acc" ) {
-						
-							echo "
-						<div class='alert alert-danger'>
-						  <strong>Error!</strong> Transaction could not be deleted.
-						</div>";
-						
-						
-						
-						
-				}
-				
-				
-						if ( $_GET["msg"] == "delete" ) {
-						
-						
-							echo "
-						<div class='alert alert-alert'>
-						  <strong>Success!</strong> Transaction has been delete.
-						</div>";
-				
-						
-				}
 
 
 
@@ -205,7 +166,7 @@
 					  <p class="errorMessage"></p>
 					</div>
 				
-						<form id = "ProfileForm">
+						<form id = "CreateProForm">
 							  <div class="form-group row">
 								<label for="profileName" class="col-4 col-form-label">Name</label> 
 								<div class="col-8">
@@ -245,6 +206,9 @@
 					</div>
 				  </div>
 				</div>
+				
+				
+		<script src="js/create_profile.js"></script>		
 
 		<script>
 			<!-- Sets datatable options -->

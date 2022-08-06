@@ -156,84 +156,84 @@ include("php/get_profile.php");
 
 
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
- 
-      <a class="navbar-brand" href="accounts.php"><i class="icofont-money-bag"></i> Virtual Saving Pots</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+	  <a class="navbar-brand" href="accounts.php"><i class="icofont-money-bag"></i> Virtual Saving Pots</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	  </button>
 
-
-	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
+
+		  
+		  <!-- Link example
+		  <li class="nav-item">
+			<a class="nav-link" href="#">Link</a>
+		  </li>
+		  -->
+		  
 		  <li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			  Profiles
 			</a>
 			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-			 
 
-			 <?php
-			 
-			 // Load the cached profiles on the menu bar
-			 
-			 $ProfileIndex = $_SESSION["profile_index"];
+				 <?php
+				 
+				 // Load the cached profiles on the menu bar
+				 
+				 $ProfileIndex = $_SESSION["profile_index"];
 
-				$counter=0;
-					
-				foreach ($ProfileIndex as $value) {
-				  
-					
-					if ( $counter > 10 ) {
+					$counter=0;
 						
-						echo " <a class='dropdown-item' href='manage_profiles.php' title = 'Choose more profiles'>More ...</a>";
-						exit();
+					foreach ($ProfileIndex as $value) {
+					  
 						
+						if ( $counter > 10 ) {
+							
+							echo " <a class='dropdown-item' href='manage_profiles.php' title = 'Choose more profiles'>More ...</a>";
+							exit();
+							
+						}
+						
+						// Get JSON from session
+						
+						$Profile_JSON = $_SESSION["ProfileID_" . $value];
+					  
+						// Decode the JSON format
+						$obj = json_decode($Profile_JSON);
+					  
+						// Extract variables
+						$profileID = $obj->ID;
+						$profilename = $obj->Name;
+						$profiledescription = $obj->Description;
+					  
+						// Out put to HTML
+						if ( $value == $_SESSION["profileID"] ) {
+							// Display open folder
+							echo " <a class='dropdown-item' href='accounts.php?p=$profileID' title = '$profiledescription'><i class='icofont-ui-folder'></i> $profilename</a>\n";
+						
+						} else {
+							// Display closed folder
+							echo " <a class='dropdown-item' href='accounts.php?p=$profileID' title = '$profiledescription'><i class='icofont-folder'></i> $profilename</a>\n";
+						
+						}
+						
+						$counter++;
+					
 					}
 					
-					// Get JSON from session
-					
-					$Profile_JSON = $_SESSION["ProfileID_" . $value];
-				  
-					// Decode the JSON format
-					$obj = json_decode($Profile_JSON);
-				  
-					// Extract variables
-					$profileID = $obj->ID;
-					$profilename = $obj->Name;
-					$profiledescription = $obj->Description;
-				  
-					// Out put to HTML
-					if ( $value == $_SESSION["profileID"] ) {
-						// Display open folder
-						echo " <a class='dropdown-item' href='accounts.php?p=$profileID' title = '$profiledescription'><i class='icofont-ui-folder'></i> $profilename</a>\n";
-					
-					} else {
-						// Display closed folder
-						echo " <a class='dropdown-item' href='accounts.php?p=$profileID' title = '$profiledescription'><i class='icofont-folder'></i> $profilename</a>\n";
-					
-					}
-					
-					$counter++;
-				
-				}
-				
-			 
-			 ?>
+				 
+				 ?>
 
-
-			  <div class="dropdown-divider"></div>
-			  <a class="dropdown-item" href="profiles.php">Manage profiles</a>
 			</div>
 		  </li>
-	  
-				<li class="nav-item">
+		  <li class="nav-item">
 			<a class="nav-link disabled" href="#"><?php echo $_SESSION["profile_name"]; ?></a>
 		  </li>
 		</ul>
 	  
 	  </div>
-
-    </nav>
-    
+	</nav>
+		
     
      <main role="main" class="container" style="padding-top:10px;">

@@ -1,6 +1,13 @@
 <?php
+# Gets list of accounts
+# if change to transaction or account, such as delete edit or add, then this
+# script is called to query the database to get the account list and balances
+# to up the cache with the new account details and balances
 
-// Gets list of accounts
+
+// Unset account total
+unset($_SESSION["SumTotalAccounts"]);
+
 
 $sql = "SELECT * from accountsT WHERE acc_enabled > 0 AND profile_ID = $ProfileID";
 
@@ -87,7 +94,7 @@ if ($result->num_rows > 0) {
 					}
 			
 		
-			$_SESSION["SumTotalAccounts"] = array_sum($totalArray);
+			
 			
 	echo "
 		
@@ -102,10 +109,9 @@ if ($result->num_rows > 0) {
 	
 	// Encode the array and store in a session
 	$_SESSION["account_rebuild_cache"] = 1;
-
+	// Set account balance
+	$_SESSION["SumTotalAccounts"] = array_sum($totalArray);
+	
 }
-
-
-
 
 ?>

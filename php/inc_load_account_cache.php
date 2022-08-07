@@ -1,4 +1,9 @@
 <?php
+# If no changes since last load, then load cache
+# with account details and balances.
+# This will help to speed page loads and db access
+# when navigating around the application.
+
 
  // Load the cached profiles on the menu bar
 			 

@@ -1,9 +1,10 @@
 <?php
+# Deletes transaction then redirects
+# back to the application home page
 
-// Deletes a given transaction
-
-
-	include("cnx.php");
+session_start();
+error_reporting(0);
+include("cnx.php");
 
 	$ref = strip_tags($_GET["ref"]);
 	$id = strip_tags($_GET["acc"]);
@@ -27,7 +28,7 @@
 			
 			// Rebuild account list
 			$_SESSION["account_rebuild_cache"] = 0;
-			
+						
 			exit();
 			}
 

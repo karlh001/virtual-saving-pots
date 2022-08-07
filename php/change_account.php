@@ -32,7 +32,7 @@ include("cnx.php");
 
 		# Done, confirms:
 
-		$_SESSION["account_use_cahce"] = 0;
+		$_SESSION["account_use_cache"] = 0;
 		echo "1";
 
 ?>

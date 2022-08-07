@@ -87,7 +87,7 @@ if ($result->num_rows > 0) {
 					}
 			
 		
-			
+			$_SESSION["SumTotalAccounts"] = array_sum($totalArray);
 			
 	echo "
 		

@@ -98,7 +98,7 @@ include("header.php");
 	  <div class="row">
 		<div class="col-sm">
 		
-		<p style="font-size: 20px;">Total Balance: <span id = "GetTotalID"><?php echo array_sum($totalArray) ?></span></p>
+		<p style="font-size: 20px;">Total Balance: <span id = "GetTotalID"><?php echo $_SESSION["SumTotalAccounts"]; ?></span></p>
 
 		  
 		<!-- Button trigger modal -->

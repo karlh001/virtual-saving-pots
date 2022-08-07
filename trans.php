@@ -2,6 +2,8 @@
 
 		include("header.php");
 
+		// Get profile ID
+		$ProfileID = $_SESSION["profileID"];
 
 
 		// List of transactions
@@ -9,68 +11,112 @@
 
 		$acc = strip_tags($_GET["ref"]);
 
-
-		// get account number
-
-		$sql = "
-		SELECT * FROM accountsT
-		WHERE acc_ref = '$acc'
-		";
-
-		$result = $conn->query($sql);
-
-		if ($result->num_rows > 0) {
-			
-			
-			 while($row = $result->fetch_assoc()) {
-				 
-						
-						$id = $row["accountID"];
-						$accName = $row["acc_name"];
-						$accDesc = $row["acc_comment"];
-						$accNote = $row["acc_notes"];
-				 
-			 }
-			 
-		 } else {
-			 
-			 
-			 echo "No such account";
-			exit(); 
-		 }
-
-
-		echo "<h1>$accName</h1>";
-
-		// Gets list of accounts
-
-		// Check if able to view all
+		// Check if general ledger
 		
-		if ( $_GET["view"] == "all" ) {
-			$sql = "
-			SELECT * FROM accountsT
-			LEFT JOIN transactionsT
-			ON transactionsT.trans_accountID = accountsT.accountID
-			WHERE tran_enabled > 0
-			AND acc_ref = '$acc'
-			ORDER BY tran_date DESC
-			";
-		} else {
-			$sql = "
-			SELECT * FROM accountsT
-			LEFT JOIN transactionsT
-			ON transactionsT.trans_accountID = accountsT.accountID
-			WHERE tran_enabled > 0
-			AND acc_ref = '$acc'
-			ORDER BY tran_date DESC
-			LIMIT 50
-			";
+		if ( $acc == "ledger" ) {
 			
-			// Sets limit variable
-			$Limit = 1;
+			echo "<h2>Ledger</h2>\n<br>\n";
 			
-		}
+		// List all transactions from all accounts
+		
+			if ( $_GET["view"] == "all" ) {
+			// Show all transactions
+				$sql = "
+					SELECT * FROM accountsT
+					LEFT JOIN transactionsT
+					ON transactionsT.trans_accountID = accountsT.accountID
+					LEFT JOIN profileT
+					ON profileT.profile_ID = accountsT.profile_ID
+					WHERE tran_enabled > 0
+					AND accountsT.profile_ID = $ProfileID
+					ORDER BY tran_date DESC
+					LIMIT 50
+				";
+			} else {
+			// Limit to 50 transactions
+				$sql = "
+					SELECT * FROM accountsT
+					LEFT JOIN transactionsT
+					ON transactionsT.trans_accountID = accountsT.accountID
+					LEFT JOIN profileT
+					ON profileT.profile_ID = accountsT.profile_ID
+					WHERE tran_enabled > 0
+					AND accountsT.profile_ID = $ProfileID
+					ORDER BY tran_date DESC
+					LIMIT 50
+				";
 
+			
+			}
+			
+			
+		} else {
+			
+			// get account number
+
+			$sql = "
+			SELECT * FROM accountsT
+			WHERE acc_ref = '$acc'
+			";
+
+			$result = $conn->query($sql);
+
+			if ($result->num_rows > 0) {
+				
+				
+				 while($row = $result->fetch_assoc()) {
+					 
+							
+							$id = $row["accountID"];
+							$accName = $row["acc_name"];
+							$accDesc = $row["acc_comment"];
+							$accNote = $row["acc_notes"];
+					 
+				 }
+				 
+			 } else {
+				 
+				 
+				 echo "No such account";
+				exit(); 
+			 }
+
+
+			echo "<h1>$accName</h1>";
+
+			// Gets list of accounts
+
+			// Check if able to view all
+			
+			if ( $_GET["view"] == "all" ) {
+				$sql = "
+				SELECT * FROM accountsT
+				LEFT JOIN transactionsT
+				ON transactionsT.trans_accountID = accountsT.accountID
+				WHERE tran_enabled > 0
+				AND acc_ref = '$acc'
+				ORDER BY tran_date DESC
+				";
+			} else {
+				$sql = "
+				SELECT * FROM accountsT
+				LEFT JOIN transactionsT
+				ON transactionsT.trans_accountID = accountsT.accountID
+				WHERE tran_enabled > 0
+				AND acc_ref = '$acc'
+				ORDER BY tran_date DESC
+				LIMIT 50
+				";
+				
+				// Sets limit variable
+				$Limit = 1;
+				
+			}
+
+
+		}
+		
+		
 			$result = $conn->query($sql);
 
 
@@ -194,14 +240,21 @@
 							$time1 = strtotime($row["tran_date"]);
 							$time2 = strtotime($lastWeek);
 							
-							If ( $row["tran_date"] < $lastWeek ) {
-							  echo "<td><i class='icofont-ui-delete'></i> ";
-							  echo "<a href='php/copy.php?id=$TransID&ref=$acc'><i class='icofont-ui-copy'></i></a></td>";
+							// Do not display if on ledger mode
+							if ( $_GET["ref"] == "ledger" ) {
+								
+								echo "<td></td>";
+								
 							} else {
-							  echo "<td><a href = 'php/delete_trans.php?ref= " . $row["transID"] ."&acc=" . $acc . "' title = 'Delete transaction'><i class='icofont-ui-delete'></i></a> ";
-							  echo "<a href='php/copy.php?id=$TransID&ref=$acc'><i class='icofont-ui-copy'></i></a></td>";
+														
+								if ( $row["tran_date"] < $lastWeek ) {
+								  echo "<td><i class='icofont-ui-delete'></i> ";
+								  echo "<a href='php/copy.php?id=$TransID&ref=$acc'><i class='icofont-ui-copy'></i></a></td>";
+								} else {
+								  echo "<td><a href = 'php/delete_trans.php?ref= " . $row["transID"] ."&acc=" . $acc . "' title = 'Delete transaction'><i class='icofont-ui-delete'></i></a> ";
+								  echo "<a href='php/copy.php?id=$TransID&ref=$acc'><i class='icofont-ui-copy'></i></a></td>";
+								}
 							}
-
 
 			echo "
 				\n</tr>";
@@ -232,8 +285,9 @@
 			</table><br>";
 			
 						
-					// Display total
-				
+				// Display total
+				// Do not display the total if on the ledger report
+				if ($_GET["ref"] !== "ledger") {
 				$sql2 = "SELECT SUM(tran_amount) as total FROM transactionsT WHERE trans_accountID = '$id' and tran_enabled > 0";
 				$result2 = $conn->query($sql2);
 							
@@ -255,7 +309,8 @@
 									
 							}
 						}
-						
+				}
+				
 			// Display view all transaction link
 			If ( $Limit > 0 and $Counter > 49 ) {
 			echo "<i class='icofont-info-circle'></i> Transactions limited to 50 <a href='trans.php?ref=$acc&view=all' title='View all transaction may take longer to load'>View all</a>";

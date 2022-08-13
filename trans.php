@@ -243,7 +243,7 @@
 							// Do not display if on ledger mode
 							if ( $_GET["ref"] == "ledger" ) {
 								
-								echo "<td></td>";
+								echo "<td><a href = 'trans.php?ref=" .  $row["acc_ref"] . "' title = '" . $row["acc_comment"] . "'>" . $row["acc_name"] . "</a></td>";
 								
 							} else {
 														

@@ -41,7 +41,9 @@ session_start();
 	$result = mysqli_query($conn,$insertAcc) or die ("Error: could not write to db " . mysqli_error($conn));
 
 		# Done, confirms:
-
+		// Request account list rebuild
+		$_SESSION["account_rebuild_cache"] = 0;
+		
 		//header("location:accounts.php?msg=success");
 		echo "1";
 

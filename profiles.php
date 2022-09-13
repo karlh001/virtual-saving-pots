@@ -70,7 +70,7 @@
 						echo "
 						<a href='accounts.php?p=$ProfileID' title = 'Select profile'>" . $ProfileName . "</a></td>
 							<td>" . $ProfileDesc . "</td>
-							<td></td>";
+							<td><a href = 'php/delete_profile.php?ref=$ProfileID&confirm=yes' title = 'Delete the profile'><i class='icofont-ui-delete'></i></td>";
 							
 			echo "
 				\n</tr>";

@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include("cnx.php");
 
 // Script to add new account to the db
@@ -32,7 +32,9 @@ include("cnx.php");
 
 		# Done, confirms:
 
-		$_SESSION["account_use_cache"] = 0;
+		// Rebuild account list
+		$_SESSION["account_rebuild_cache"] = 0;
+		
 		echo "1";
 
 ?>

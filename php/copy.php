@@ -1,5 +1,6 @@
 <?php
 
+	session_start();
 	include("cnx.php");
 
 	$ID = strip_tags($_GET["id"]);
@@ -50,6 +51,9 @@
 
 
 			if ($conn->query($postP) === TRUE) {
+				
+				// Request account list rebuild
+				$_SESSION["account_rebuild_cache"] = 0;
 			
 				echo "<script>
 				window.location.href = '../trans.php?msg=done-copy&ref=" . $Ref . "'
